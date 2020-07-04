@@ -1,7 +1,5 @@
-import { UserState } from '~/types/store/ducks/UserState';
-import { CommonState } from '~/types/store/ducks/CommonState';
+import { LoginState } from '~/types/store/ducks/LoginState';
 
 export interface ReduxState {
-  common: CommonState;
-  user: UserState;
+  login: LoginState;
 }

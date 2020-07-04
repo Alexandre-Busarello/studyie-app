@@ -8,6 +8,7 @@ import { ReduxState } from '~/types/store/ReduxState';
 import { SideMenu } from '~/components/SideMenu';
 import { AuthScreen } from '~/screens/Auth';
 import { HomeScreen } from '~/screens/Home';
+import { SetupScreen } from '~/screens/Setup';
 import { LogoutScreen } from '~/screens/Logout';
 import { drawerOptions, stackOptions } from '~/routes/navigatorOptions';
 import { enableScreens } from 'react-native-screens';
@@ -26,11 +27,20 @@ const Root = () => (
   </Drawer.Navigator>
 );
 
+const Setup = () => (
+  <Drawer.Navigator
+    drawerContent={props => <SideMenu {...props} />}
+    drawerContentOptions={drawerOptions}>
+    <Drawer.Screen name="Setup" component={SetupScreen} />
+    <Drawer.Screen name="Logout" component={LogoutScreen} />
+  </Drawer.Navigator>
+);
+
 export const Routes = () => {
-  const user = useSelector((state: ReduxState) => state.user);
+  const login = useSelector((state: ReduxState) => state.login);
 
   axios.interceptors.request.use(function(config) {
-    config.headers.Authorization = `Bearer ${user.token}`;
+    config.headers.Authorization = `Bearer ${login.token}`;
 
     return config;
   });
@@ -43,6 +53,7 @@ export const Routes = () => {
           component={AuthScreen}
           options={{ headerShown: false }}
         />
+        <Stack.Screen name="Setup" component={Setup} />
         <Stack.Screen name="Root" component={Root} />
       </Stack.Navigator>
     </NavigationContainer>

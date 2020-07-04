@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { View } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { logout } from '~/store/ducks/user';
+import { logout } from '~/store/ducks/login';
 
 export const LogoutScreen = ({ navigation }: StackScreenProps) => {
   const dispatch = useDispatch();

@@ -7,7 +7,7 @@ import {
   GoogleIcon,
 } from '~/components/SocialAuth/GoogleButton/GoogleButton.styles';
 import { User } from '~/types/entities/User';
-import { signInFromGoogle } from '~/store/ducks/user';
+import { signInFromGoogle } from '~/store/ducks/login';
 
 export const GoogleButton = () => {
   const dispatch = useDispatch();

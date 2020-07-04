@@ -14,7 +14,7 @@ import { useSelector } from 'react-redux';
 import { User } from '~/types/entities/User';
 
 export const SideMenu = (props) => {
-  const user: User = useSelector((state: ReduxState) => state.user.data);
+  const user: User = useSelector((state: ReduxState) => state.login.data);
 
   const renderUserAvatar = () => {
     const placeholder = {

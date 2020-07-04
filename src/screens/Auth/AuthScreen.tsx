@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { GoogleButton } from '~/components/SocialAuth';
-import AuthenticationSVG from 'assets/images/authentication.svg';
 import {
   Container,
   Title,
@@ -15,28 +14,28 @@ import {
 import { View } from 'react-native';
 import { ReduxState } from '~/types/store/ReduxState';
 import { StackScreenProps } from '~/types/routes/StackScreenProps';
-import { signIn } from '~/store/ducks/user';
+import { signIn } from '~/store/ducks/login';
 
 export const AuthScreen = ({ navigation }: StackScreenProps) => {
   const dispatch = useDispatch();
-  const user = useSelector((state: ReduxState) => state.user);
-  const loginNotFound = useSelector((state: ReduxState) => state.user.notFound);
-  const isLoading = useSelector((state: ReduxState) => state.user.isLoading);
+  const login = useSelector((state: ReduxState) => state.login);
+  const loginNotFound = useSelector((state: ReduxState) => state.login.notFound);
+  const isLoading = useSelector((state: ReduxState) => state.login.isLoading);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   useEffect(() => {
-    if (user?.token) {
+    if (login?.token) {
       redirectToHomePage();
     }
-  }, [user, redirectToHomePage]);
+  }, [login, redirectToHomePage]);
 
   const redirectToHomePage = () => {
-    navigation.reset({ index: 0, routes: [{ name: 'Root' }] });
+    navigation.reset({ index: 0, routes: [{ name: 'Setup' }] });
   };
 
-  if (user?.token) {
+  if (login?.token) {
     return null;
   }
 

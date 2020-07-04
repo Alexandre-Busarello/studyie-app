@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
-import common from '~/store/ducks/common';
-import user from '~/store/ducks/user';
+import login from '~/store/ducks/login';
+import student from '~/store/ducks/student';
+import data from '~/store/ducks/data';
 
 export const reducers = combineReducers({
-  common,
-  user,
+  login,
+  student,
+  data,
 });
