@@ -6,4 +6,5 @@ export interface StudentState {
   preferences: Array<ContentType>;
   isLoading: boolean;
   errorOnLoading: boolean;
+  query: string;
 }

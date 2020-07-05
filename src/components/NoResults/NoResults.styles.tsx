@@ -3,12 +3,15 @@ import { RFValue as FontSize } from 'react-native-responsive-fontsize';
 
 export const Wrapper = styled.View`
   position: absolute;
-  top: 0;
+  top: 58px;
   bottom: 0;
   right: 0;
   left: 0;
   align-items: center;
-  justify-content: center;
+`;
+
+export const SvgWrapper = styled.View`
+  margin-top: 50px;
 `;
 
 export const WarningText = styled.Text`

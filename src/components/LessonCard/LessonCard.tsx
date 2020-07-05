@@ -15,18 +15,18 @@ import {
 interface Props {
   data: Lesson;
   index: number;
-  onClick?: (selectedData: Product) => void;
+  onClick?: (selectedData: Lesson) => void;
 }
 
 export const LessonCard = ({ data, index, onClick }: Props) => {
-  const showListingsDetails = async () => {
+  const handlePressLesson = async () => {
     if (onClick) {
       onClick(data);
     }
   };
 
   return (
-    <CardWrapper testID="lesson-card" first={index === 0} onPress={showListingsDetails}>
+    <CardWrapper testID="lesson-card" first={index === 0} onPress={handlePressLesson}>
       <ImageWrapper>
         <LessonImage source={{ uri: data.thumbUrl }} resizeMode="stretch" />
         {data.contentsType?.length > 0 && <Badge>{data.contentsType[0].name}</Badge>}

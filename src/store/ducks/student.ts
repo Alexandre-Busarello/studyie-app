@@ -13,6 +13,8 @@ export enum ActionType {
   START_LOADING = '@student/START_LOADING',
   ERROR_ON_LOADING = '@student/ERROR_ON_LOADING',
   CREATE_STUDENT_PREFERENCES = '@student/CREATE_STUDENT_PREFERENCES',
+  CLEAR_STUDENT_PREFERENCES = '@student/CLEAR_STUDENT_PREFERENCES',
+  SAVE_QUERY = '@student/SAVE_QUERY',
 }
 
 // Reducer
@@ -21,6 +23,7 @@ const initialState: StundentState = {
   preferences: null,
   isLoading: false,
   errorOnLoading: false,
+  query: ''
 };
 
 export default function reducer(state = initialState, action?: ReduxAction) {
@@ -41,6 +44,13 @@ export default function reducer(state = initialState, action?: ReduxAction) {
       case ActionType.CREATE_STUDENT_PREFERENCES:
         const { preferences } = action.payload;
         draft.preferences = preferences;
+        break;
+      case ActionType.CLEAR_STUDENT_PREFERENCES:
+        draft.preferences = null;
+        break;
+      case ActionType.SAVE_QUERY:
+        const { query } = action.payload;
+        draft.query = query;
         break;
       default:
     }
@@ -78,12 +88,32 @@ export const createStudentPreferences = (preferences: Array<ContentType>): Redux
   };
 };
 
+export const clearStudentPreferences = (preferences: Array<ContentType>): ReduxAction => {
+  return {
+    type: ActionType.CLEAR_STUDENT_PREFERENCES,
+  };
+};
+
+export const saveQuery = (query: string): ReduxAction => {
+  return {
+    type: ActionType.SAVE_QUERY,
+    payload: {
+      query,
+    },
+  };
+};
+
 // Thunks
-export const loadStudentLessons = () => async (dispatch) => {
+export const loadStudentLessons = (query: string) => async (dispatch) => {
   dispatch(startLoading());
+  dispatch(saveQuery(query));
+
+  const getUrl = query
+    ? `${API_URL}/student/lesson?q=${query}`
+    : `${API_URL}/student/lesson`;
 
   try {
-    const response = await axios.get(`${API_URL}/student/lesson`);
+    const response = await axios.get(getUrl);
 
     const lessons: Array<Lesson> = response.data;
 

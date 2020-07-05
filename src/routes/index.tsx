@@ -9,11 +9,10 @@ import { SideMenu } from '~/components/SideMenu';
 import { AuthScreen } from '~/screens/Auth';
 import { HomeScreen } from '~/screens/Home';
 import { SetupScreen } from '~/screens/Setup';
+import { LessonScreen } from '~/screens/Lesson';
+import { PreferencesScreen } from '~/screens/Preferences';
 import { LogoutScreen } from '~/screens/Logout';
 import { drawerOptions, stackOptions } from '~/routes/navigatorOptions';
-import { enableScreens } from 'react-native-screens';
-
-enableScreens();
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -23,6 +22,7 @@ const Root = () => (
     drawerContent={props => <SideMenu {...props} />}
     drawerContentOptions={drawerOptions}>
     <Drawer.Screen name="Home" component={HomeScreen} />
+    <Drawer.Screen name="Preferences" component={PreferencesScreen} />
     <Drawer.Screen name="Logout" component={LogoutScreen} />
   </Drawer.Navigator>
 );
@@ -55,6 +55,11 @@ export const Routes = () => {
         />
         <Stack.Screen name="Setup" component={Setup} />
         <Stack.Screen name="Root" component={Root} />
+        <Stack.Screen
+          name="Lesson"
+          component={LessonScreen}
+          initialParams={{ lesson: null }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

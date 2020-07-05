@@ -2,14 +2,14 @@ import React, { useEffect } from 'react';
 import { View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { StackScreenProps } from '~/types/routes/StackScreenProps';
-import { logout } from '~/store/ducks/login';
+import { clearStudentPreferences } from '~/store/ducks/student';
 
-export const LogoutScreen = ({ navigation }: StackScreenProps) => {
+export const PreferencesScreen = ({ navigation }: StackScreenProps) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(logout());
-    navigation.reset({ index: 0, routes: [{ name: 'Auth' }] });
+    dispatch(clearStudentPreferences());
+    navigation.reset({ index: 0, routes: [{ name: 'Setup' }] });
   }, [dispatch, navigation]);
 
   return <View />;
