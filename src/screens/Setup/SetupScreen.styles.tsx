@@ -1,6 +1,7 @@
 import styled from 'styled-components/native';
 import { RFValue as FontSize } from 'react-native-responsive-fontsize';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { InputAutocomplete } from '~/components/InputAutocomplete';
 import { Button } from '~/components/Button';
 
@@ -62,3 +63,9 @@ export const ConfirmButton = styled(Button).attrs({
   background-color: ${props =>
     props.disabled ? 'rgba(219,76,119,0.5)' : '#db4c77'};
 `;
+
+export const AddIcon = styled(Ionicons).attrs({
+  name: 'md-add',
+  color: '#fff',
+  size: 26,
+})``;

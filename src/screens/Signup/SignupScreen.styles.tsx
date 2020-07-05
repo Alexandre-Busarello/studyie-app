@@ -18,9 +18,16 @@ export const Title = styled.Text`
 `;
 
 export const ButtonsWrapper = styled.View`
-  padding: 30px;
+  padding: 50px;
   justify-content: center;
   align-items: center;
+`;
+
+export const AgreementText = styled.Text`
+  margin-top: 30px;
+  color: #757575;
+  font-size: ${FontSize(13)}px;
+  text-align: center;
 `;
 
 export const InvalidLogin = styled.Text`
@@ -41,6 +48,13 @@ export const FormInput = styled(Input)`
 
 export const SubmitButton = styled(Button)`
   margin-top: 5px;
+`;
+
+export const ErrorMessage = styled.Text`
+  margin-top: 30px;
+  color: #db4c77;
+  font-size: ${FontSize(18)}px;
+  text-align: center;
 `;
 
 export const SignLink = styled.TouchableOpacity`

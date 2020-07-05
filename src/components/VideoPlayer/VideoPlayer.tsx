@@ -2,9 +2,14 @@ import React from 'react';
 import { WebView } from 'react-native-webview';
 import { Container, Mp4VideoPlayer } from './VideoPlayer.styles';
 
-export const VideoPlayer = ({ youtubeId, mp4Uri }) => {
+interface Props {
+  youtubeId?: string;
+  mp4Uri?: string;
+  thumbUri?: string;
+}
+
+export const VideoPlayer = ({ youtubeId, mp4Uri, thumbUri }: Props) => {
   const renderYoutubePlayer = () => {
-    console.tron.log(`https://www.youtube.com/embed/'${youtubeId}`);
     return (
       <Container>
         <WebView
@@ -23,8 +28,6 @@ export const VideoPlayer = ({ youtubeId, mp4Uri }) => {
     return renderYoutubePlayer();
   }
   return (
-    <Container>
-      <Mp4VideoPlayer source={{ uri: mp4Uri }} />
-    </Container>
+    <Mp4VideoPlayer video={{ uri: mp4Uri }} thumbnail={{ uri: thumbUri }} />
   );
 };

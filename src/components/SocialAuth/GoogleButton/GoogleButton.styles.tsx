@@ -13,6 +13,7 @@ export const Button = styled.TouchableOpacity.attrs({
   min-width: 100%;
   elevation: 5;
   margin: 10px 0;
+  justify-content: center;
 `;
 
 export const Text = styled.Text`

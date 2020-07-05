@@ -2,10 +2,10 @@ import axios from 'axios';
 import produce from 'immer';
 import { API_URL } from 'react-native-dotenv';
 import { Lesson } from '~/types/entities/Lesson';
-import { ContentType } from '~/types/entities/ContentType';
+import { ContentType, UserPreferences } from '~/types/entities/ContentType';
 import { ReduxAction } from '~/types/store/ReduxAction';
-import { StundentState } from '~/types/store/ducks/StundentState';
-import { setupCompleted } from '~/store/ducks/student';
+import { StudentState } from '~/types/store/ducks/StudentState';
+import { setupCompleted } from '~/store/ducks/login';
 
 // Actions
 export enum ActionType {
@@ -18,7 +18,7 @@ export enum ActionType {
 }
 
 // Reducer
-const initialState: StundentState = {
+const initialState: StudentState = {
   lessons: null,
   preferences: null,
   isLoading: false,
@@ -88,7 +88,7 @@ export const createStudentPreferences = (preferences: Array<ContentType>): Redux
   };
 };
 
-export const clearStudentPreferences = (preferences: Array<ContentType>): ReduxAction => {
+export const clearStudentPreferences = (): ReduxAction => {
   return {
     type: ActionType.CLEAR_STUDENT_PREFERENCES,
   };
@@ -104,7 +104,7 @@ export const saveQuery = (query: string): ReduxAction => {
 };
 
 // Thunks
-export const loadStudentLessons = (query: string) => async (dispatch) => {
+export const loadStudentLessons = (query?: string) => async (dispatch) => {
   dispatch(startLoading());
   dispatch(saveQuery(query));
 
@@ -137,7 +137,7 @@ export const saveStudentPreferences = (selectedContents: Array<ContentType>) => 
   try {
     const response = await axios.post(`${API_URL}/student/preferences`, data);
 
-    const { preferences }: Array<ContentType> = response.data;
+    const { preferences }: UserPreferences = response.data;
 
     dispatch(createStudentPreferences(preferences));
     dispatch(setupCompleted());

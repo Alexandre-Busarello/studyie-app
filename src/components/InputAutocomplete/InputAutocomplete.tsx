@@ -10,7 +10,7 @@ interface AutocompleteConfigs {
   data: Array<string>;
   autoCapitalize: string;
   autoCorrect: boolean;
-  setData: (item) => void;
+  useStateObject: any;
 }
 
 export const InputAutocomplete = ({ autocompleteConfigs, ...rest }) => {
@@ -19,9 +19,10 @@ export const InputAutocomplete = ({ autocompleteConfigs, ...rest }) => {
     autoCapitalize,
     autoCorrect,
     data,
-    setData,
+    useStateObject,
   } = typedAutocompleteConfig;
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useStateObject;
+  const [selected, setSelected] = useState(false);
 
   const filterData = () => {
     const { data } = autocompleteConfigs;
@@ -36,9 +37,12 @@ export const InputAutocomplete = ({ autocompleteConfigs, ...rest }) => {
     const { data } = autocompleteConfigs;
 
     setQuery(text);
+    setSelected(false);
+  };
 
-    const item = data?.find((d) => d === text);
-    item ? setData(item) : setData('');
+  const handleSelected = (text: string) => {
+    handleAutocompleteChange(text);
+    setSelected(true);
   };
 
   const filteredData = filterData();
@@ -53,9 +57,17 @@ export const InputAutocomplete = ({ autocompleteConfigs, ...rest }) => {
         onChangeText={handleAutocompleteChange}
         keyExtractor={item => item}
         renderItem={({ item }) => (
-            <TAutocompleteItem onPress={() => handleAutocompleteChange(item)}>
-              <Text>{item}</Text>
-            </TAutocompleteItem>
+          <React.Fragment>
+            {
+              !selected ? (
+                <TAutocompleteItem onPress={() => handleSelected(item)}>
+                  <Text>{item}</Text>
+                </TAutocompleteItem>
+              ) : (
+                null
+              )
+            }
+          </React.Fragment>
         )}
         {...rest}
       />

@@ -1,9 +1,9 @@
 import styled from 'styled-components/native';
 import { RFValue as FontSize } from 'react-native-responsive-fontsize';
 
-export const Container = styled.View`
+export const Container = styled.ScrollView`
+  padding: 20px 30px 0;
   flex: 1;
-  padding: 30px;
 `;
 
 export const Title = styled.Text`
@@ -21,5 +21,16 @@ export const Description = styled.Text`
 
 export const VideoWrapper = styled.View`
   margin-top: 30px;
+`;
+
+export const YoutubeWrapper = styled.View`
   height: 330px;
+`;
+
+export const PublishedBy = styled.Text`
+  height: 80px;
+  margin-top: 20px;
+  color: #757575;
+  font-size: ${FontSize(14)}px;
+  padding-bottom: 30px;
 `;

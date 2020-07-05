@@ -6,4 +6,6 @@ export interface LoginState {
   notFound: boolean;
   isLoading: boolean;
   setupCompleted: boolean;
+  userCreated: boolean;
+  errorMessage: string;
 }

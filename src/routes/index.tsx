@@ -1,10 +1,7 @@
 import React from 'react';
-import axios from 'axios';
-import { useSelector } from 'react-redux';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
-import { ReduxState } from '~/types/store/ReduxState';
 import { SideMenu } from '~/components/SideMenu';
 import { AuthScreen } from '~/screens/Auth';
 import { HomeScreen } from '~/screens/Home';
@@ -12,6 +9,7 @@ import { SetupScreen } from '~/screens/Setup';
 import { LessonScreen } from '~/screens/Lesson';
 import { PreferencesScreen } from '~/screens/Preferences';
 import { LogoutScreen } from '~/screens/Logout';
+import { SignupScreen } from '~/screens/Signup';
 import { drawerOptions, stackOptions } from '~/routes/navigatorOptions';
 
 const Stack = createStackNavigator();
@@ -37,20 +35,17 @@ const Setup = () => (
 );
 
 export const Routes = () => {
-  const login = useSelector((state: ReduxState) => state.login);
-
-  axios.interceptors.request.use(function(config) {
-    config.headers.Authorization = `Bearer ${login.token}`;
-
-    return config;
-  });
-
   return (
     <NavigationContainer>
       <Stack.Navigator mode="card" screenOptions={stackOptions}>
         <Stack.Screen
           name="Auth"
           component={AuthScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="SignUp"
+          component={SignupScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen name="Setup" component={Setup} />

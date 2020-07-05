@@ -12,7 +12,7 @@ export const NoResults = () => (
       <NoResultsSVG height={300} />
     </SvgWrapper>
     <WarningText>
-      Ops! Não encontramos nenhuma aula com esse filtro :(
+      Ops! Não encontramos nenhuma aula para suas preferências ou filtros :(
     </WarningText>
   </Wrapper>
 );

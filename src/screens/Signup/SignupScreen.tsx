@@ -1,57 +1,67 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { GoogleButton } from '~/components/SocialAuth';
 import {
   Container,
   Title,
-  ButtonsWrapper,
+  AgreementText,
   Form,
   FormInput,
   SubmitButton,
-  InvalidLogin,
+  ErrorMessage,
   SignLink,
-  SignLinkText
-} from './AuthScreen.styles';
+  SignLinkText,
+} from './SignupScreen.styles';
 import { View } from 'react-native';
 import { ReduxState } from '~/types/store/ReduxState';
 import { StackScreenProps } from '~/types/routes/StackScreenProps';
-import { signIn, resetUserCreated } from '~/store/ducks/login';
+import { signUp } from '~/store/ducks/login';
 
-export const AuthScreen = ({ navigation }: StackScreenProps) => {
+export const SignupScreen = ({ navigation }: StackScreenProps) => {
   const dispatch = useDispatch();
-  const login = useSelector((state: ReduxState) => state.login);
-  const loginNotFound = useSelector((state: ReduxState) => state.login.notFound);
   const isLoading = useSelector((state: ReduxState) => state.login.isLoading);
+  const errorMessage = useSelector(
+    (state: ReduxState) => state.login.errorMessage,
+  );
+  const userCreated = useSelector(
+    (state: ReduxState) => state.login.userCreated,
+  );
 
+  if (userCreated) {
+    navigation.navigate('Auth');
+  }
+
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const redirectToHomePage = () => {
-    navigation.reset({ index: 0, routes: [{ name: 'Setup' }] });
-  };
-
-  useEffect(() => {
-    if (login?.token) {
-      redirectToHomePage();
-    }
-    dispatch(resetUserCreated());
-  }, [login, redirectToHomePage]);
-
-  if (login?.token) {
-    return null;
-  }
-
   function handleSubmit() {
-    dispatch(signIn(email, password));
+    dispatch(signUp(name, email, password));
   }
+
+  const renderError = () => {
+    if (!errorMessage) {
+      return null;
+    }
+    return <ErrorMessage>{errorMessage}</ErrorMessage>;
+  };
 
   return (
     <KeyboardAwareScrollView>
       <Container>
         <View>
-          <Title>Studyie</Title>
+          <Title>New account</Title>
           <Form>
+            <FormInput
+              icon="person-outline"
+              autoCorrect={false}
+              autoCapitalize="none"
+              placeholder="Full name"
+              returnKeyType="next"
+              value={name}
+              onChangeText={setName}
+            />
+
             <FormInput
               icon="mail-outline"
               keyboardType="email-address"
@@ -74,24 +84,20 @@ export const AuthScreen = ({ navigation }: StackScreenProps) => {
             />
 
             <SubmitButton loading={isLoading} onPress={handleSubmit}>
-              Login
+              Create an account
             </SubmitButton>
 
-            {loginNotFound && (
-              <InvalidLogin>
-                Invalid email or password
-              </InvalidLogin>
-            )}
+            {renderError()}
           </Form>
 
-          <SignLink onPress={() => navigation.navigate('SignUp')}>
-            <SignLinkText>Create a free account</SignLinkText>
+          <SignLink onPress={() => navigation.navigate('Auth')}>
+            <SignLinkText>I already have an account</SignLinkText>
           </SignLink>
         </View>
 
-        <ButtonsWrapper>
-          <GoogleButton />
-        </ButtonsWrapper>
+        <AgreementText>
+          By continuing, you agree to our Terms of Use and Privacy Policy
+        </AgreementText>
       </Container>
     </KeyboardAwareScrollView>
   );

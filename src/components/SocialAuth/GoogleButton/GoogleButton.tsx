@@ -39,7 +39,7 @@ export const GoogleButton = () => {
   return (
     <Button testID="google-button" onPress={handleLogin}>
       <GoogleIcon />
-      <Text>Entrar com o Google</Text>
+      <Text>Sign in with Google</Text>
     </Button>
   );
 };

@@ -8,6 +8,7 @@ import { NoResults } from '~/components/NoResults';
 import { LessonCard } from '~/components/LessonCard';
 import { SearchInput } from '~/components/SearchInput';
 import { SafeAreaView, LoadingWrapper } from './HomeScreen.styles';
+import { ReduxState } from '~/types/store/ReduxState';
 
 export const HomeScreen = ({ navigation }: StackScreenProps) => {
   const dispatch = useDispatch();

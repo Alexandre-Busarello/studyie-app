@@ -18,7 +18,7 @@ export const SideMenu = (props) => {
 
   const renderUserAvatar = () => {
     const placeholder = {
-      name: 'Visitante',
+      name: 'Guest',
       picture: 'https://via.placeholder.com/300',
     };
 
@@ -26,7 +26,7 @@ export const SideMenu = (props) => {
       <InfoWrapper>
         <UserInfo>
           <Avatar source={{ uri: user?.pictureUrl || placeholder.picture }} />
-          <UserName>Olá, {user?.firstName || placeholder.name}</UserName>
+          <UserName>Hello, {user?.firstName || placeholder.name}</UserName>
         </UserInfo>
       </InfoWrapper>
     );

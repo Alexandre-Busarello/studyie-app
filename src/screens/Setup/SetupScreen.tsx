@@ -5,6 +5,8 @@ import { loadContentTypesData } from '~/store/ducks/data';
 import { saveStudentPreferences } from '~/store/ducks/student';
 import { User } from '~/types/entities/User';
 import { ContentType } from '~/types/entities/ContentType';
+import { StackScreenProps } from '~/types/routes/StackScreenProps';
+import { ReduxState } from '~/types/store/ReduxState';
 
 import {
   CurstomKeyboardAwareScrollView,
@@ -14,9 +16,9 @@ import {
   InputWrapper,
   FormButton,
   BadgeWrapper,
-  SelectedBadge,
   Badge,
-  ConfirmButton
+  ConfirmButton,
+  AddIcon
 } from './SetupScreen.styles';
 
 export const SetupScreen = ({ navigation }: StackScreenProps) => {
@@ -25,12 +27,13 @@ export const SetupScreen = ({ navigation }: StackScreenProps) => {
   const contentTypes = useSelector(
     (state: ReduxState) => state.data.contentTypes,
   );
-  const preferences: ContentType = useSelector((state: ReduxState) => state.student.preferences);
-  const isLoading: ContentType = useSelector((state: ReduxState) => state.student.isLoading);
+  const preferences: Array<ContentType> = useSelector((state: ReduxState) => state.student.preferences);
+  const isLoading: boolean = useSelector((state: ReduxState) => state.student.isLoading);
 
   const contentTypesStringArray = contentTypes?.map(c => c.name);
 
-  const [contentType, setContentType] = useState('');
+  const contentState = useState('');
+  const [contentType, setContentType] = contentState;
   const [selectedContents, setSelectedContents] = useState([]);
 
   useEffect(() => {
@@ -48,6 +51,7 @@ export const SetupScreen = ({ navigation }: StackScreenProps) => {
       return null;
     };
     setSelectedContents([...selectedContents, contentType]);
+    setContentType('');
   }
 
   function handleSubmit() {
@@ -56,26 +60,26 @@ export const SetupScreen = ({ navigation }: StackScreenProps) => {
 
   return (
     <CurstomKeyboardAwareScrollView resetScrollToCoords={{ x: 0, y: 0 }} scrollEnabled={true}>
-      <Title>Olá, {user?.firstName}</Title>
-      <Title>Vamos configurar sua plataforma de estudo?</Title>
+      <Title>Hello, {user?.firstName}</Title>
+      <Title>Let's set up your study platform?</Title>
       <Description>
-        Escolha conteúdos que você gostaria de ver na sua timeline. A ordem escolhida será a ordem de relevância.
+        Choose content that you want to see on your timeline. The order chosen will be the order of relevance.
       </Description>
       <InputWrapper>
         <FormInput
-          placeholder="Escolha até 10 conteúdos"
+          placeholder="Choose up to 10 contents"
           autocompleteConfigs={{
             autoCapitalize: 'none',
             autoCorrect: false,
             data: contentTypesStringArray,
-            setData: setContentType,
+            useStateObject: contentState,
           }}
         />
         <FormButton
           disabled={!contentType || selectedContents?.length >= 10}
           onPress={handleAddContent}
         >
-          Add
+          <AddIcon />
         </FormButton>
       </InputWrapper>
       <BadgeWrapper>
@@ -87,7 +91,7 @@ export const SetupScreen = ({ navigation }: StackScreenProps) => {
         loading={isLoading}
         onPress={handleSubmit}
       >
-        Salvar
+        Let's study :)
       </ConfirmButton>
     </CurstomKeyboardAwareScrollView>
   );

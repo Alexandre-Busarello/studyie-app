@@ -12,6 +12,9 @@ export enum ActionType {
   LOGIN_NOT_FOUND = '@login/LOGIN_NOT_FOUND',
   START_LOADING = '@login/START_LOADING',
   SETUP_COMPLETED = '@login/SETUP_COMPLETED',
+  USER_CREATED = '@login/USER_CREATED',
+  RESET_USER_CREATED = '@login/RESET_USER_CREATED',
+  REQUEST_ERROR = '@login/REQUEST_ERROR',
   REHYDRATE = 'persist/REHYDRATE',
 }
 
@@ -22,6 +25,8 @@ const initialState: LoginState = {
   notFound: false,
   isLoading: false,
   setupCompleted: false,
+  userCreated: false,
+  errorMessage: '',
 };
 
 export default function reducer(state = initialState, action?: ReduxAction) {
@@ -39,6 +44,7 @@ export default function reducer(state = initialState, action?: ReduxAction) {
         draft.notFound = false;
         draft.isLoading = false;
         draft.setupCompleted = false;
+        draft.userCreated = false;
         break;
       case ActionType.LOGIN_NOT_FOUND:
         draft.notFound = true;
@@ -50,9 +56,23 @@ export default function reducer(state = initialState, action?: ReduxAction) {
       case ActionType.SETUP_COMPLETED:
         draft.setupCompleted = true;
         break;
+      case ActionType.USER_CREATED:
+        draft.userCreated = true;
+        draft.isLoading = false;
+        draft.errorMessage = '';
+        break;
+      case ActionType.RESET_USER_CREATED:
+        draft.userCreated = false;
+        break;
+      case ActionType.REQUEST_ERROR:
+        const { error } = action.payload
+        draft.isLoading = false;
+        draft.errorMessage = error;
+        break;
       case ActionType.REHYDRATE:
         draft.notFound = false;
         draft.isLoading = false;
+        draft.errorMessage = '';
         break;
       default:
     }
@@ -94,6 +114,27 @@ export const setupCompleted = (): ReduxAction => {
   };
 };
 
+export const userCreated = (): ReduxAction => {
+  return {
+    type: ActionType.USER_CREATED,
+  };
+};
+
+export const resetUserCreated = (): ReduxAction => {
+  return {
+    type: ActionType.RESET_USER_CREATED,
+  };
+};
+
+export const errorOcurred = (error: string): ReduxAction => {
+  return {
+    type: ActionType.REQUEST_ERROR,
+    payload: {
+      error
+    },
+  };
+};
+
 // Thunks
 export const signIn = (email: string, password: string) => async (dispatch) => {
   const data = {
@@ -107,9 +148,34 @@ export const signIn = (email: string, password: string) => async (dispatch) => {
     const response = await axios.post(`${API_URL}/login/signin`, data);
 
     const { user, token } = response.data;
+
+    axios.interceptors.request.use(function(config) {
+      config.headers.Authorization = `Bearer ${token}`;
+
+      return config;
+    });
+
     dispatch(login(user, token));
   } catch (e) {
     dispatch(notFound());
+    return;
+  }
+};
+
+export const signUp = (name: string, email: string, password: string) => async (dispatch) => {
+  const data = {
+    name,
+    email,
+    password
+  };
+
+  dispatch(startLoading());
+
+  try {
+    const response = await axios.post(`${API_URL}/login/signup`, data);
+    dispatch(userCreated());
+  } catch (e) {
+    dispatch(errorOcurred(e.response?.data?.message));
     return;
   }
 };
@@ -128,5 +194,12 @@ export const signInFromGoogle = (googleUser: User) => async (dispatch) => {
   const response = await axios.post(`${API_URL}/login/google/signin`, data);
 
   const { user, token } = response.data;
+
+  axios.interceptors.request.use(function(config) {
+    config.headers.Authorization = `Bearer ${token}`;
+
+    return config;
+  });
+
   dispatch(login(user, token));
 };
