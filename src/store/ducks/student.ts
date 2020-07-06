@@ -15,6 +15,7 @@ export enum ActionType {
   CREATE_STUDENT_PREFERENCES = '@student/CREATE_STUDENT_PREFERENCES',
   CLEAR_STUDENT_PREFERENCES = '@student/CLEAR_STUDENT_PREFERENCES',
   SAVE_QUERY = '@student/SAVE_QUERY',
+  LOGOUT = '@login/LOGOUT',
 }
 
 // Reducer
@@ -52,6 +53,13 @@ export default function reducer(state = initialState, action?: ReduxAction) {
       case ActionType.SAVE_QUERY:
         const { query } = action.payload;
         draft.query = query;
+        break;
+      case ActionType.LOGOUT:
+        draft.lessons = null;
+        draft.preferences = null;
+        draft.isLoading = false;
+        draft.errorOnLoading = false;
+        draft.query = '';
         break;
       default:
     }

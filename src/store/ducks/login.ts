@@ -4,6 +4,7 @@ import { API_URL } from 'react-native-dotenv';
 import { User } from '~/types/entities/User';
 import { ReduxAction } from '~/types/store/ReduxAction';
 import { LoginState } from '~/types/store/ducks/LoginState';
+import { addAuthInterceptor } from '~/helpers/axios';
 
 // Actions
 export enum ActionType {
@@ -149,11 +150,7 @@ export const signIn = (email: string, password: string) => async (dispatch) => {
 
     const { user, token } = response.data;
 
-    axios.interceptors.request.use(function(config) {
-      config.headers.Authorization = `Bearer ${token}`;
-
-      return config;
-    });
+    addAuthInterceptor(token);
 
     dispatch(login(user, token));
   } catch (e) {
@@ -195,11 +192,7 @@ export const signInFromGoogle = (googleUser: User) => async (dispatch) => {
 
   const { user, token } = response.data;
 
-  axios.interceptors.request.use(function(config) {
-    config.headers.Authorization = `Bearer ${token}`;
-
-    return config;
-  });
+  addAuthInterceptor(token);
 
   dispatch(login(user, token));
 };

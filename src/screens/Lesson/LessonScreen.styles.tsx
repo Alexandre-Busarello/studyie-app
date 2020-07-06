@@ -19,12 +19,10 @@ export const Description = styled.Text`
   font-size: ${FontSize(18)}px;
 `;
 
-export const VideoWrapper = styled.View`
-  margin-top: 30px;
-`;
+export const VideoWrapper = styled.View``;
 
 export const YoutubeWrapper = styled.View`
-  height: 330px;
+  height: 300px;
 `;
 
 export const PublishedBy = styled.Text`

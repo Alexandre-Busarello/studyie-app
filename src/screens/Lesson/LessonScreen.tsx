@@ -40,8 +40,10 @@ export const LessonScreen = ({ route }: Props) => {
 
   useEffect(() => {
     async function loadTutorInfo() {
-      const data = await getTutorInfo();
-      setTutorInfo(data);
+      if (!tutorInfo) {
+        const data = await getTutorInfo();
+        setTutorInfo(data);
+      }
     }
     if (lesson) {
       loadTutorInfo();
@@ -75,12 +77,12 @@ export const LessonScreen = ({ route }: Props) => {
 
   return (
     <React.Fragment>
+      <VideoWrapper>
+        {renderVideoPlayer()}
+      </VideoWrapper>
       <Container>
         <Title>{name}</Title>
         <Description>{description}</Description>
-        <VideoWrapper>
-          {renderVideoPlayer()}
-        </VideoWrapper>
         {renderTutorInfo()}
       </Container>
     </React.Fragment>

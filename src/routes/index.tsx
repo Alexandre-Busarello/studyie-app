@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import axios from 'axios';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
@@ -13,6 +12,7 @@ import { PreferencesScreen } from '~/screens/Preferences';
 import { LogoutScreen } from '~/screens/Logout';
 import { SignupScreen } from '~/screens/Signup';
 import { drawerOptions, stackOptions } from '~/routes/navigatorOptions';
+import { addAuthInterceptor } from '~/helpers/axios';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -57,11 +57,7 @@ export const Routes = () => {
   const token: string = useSelector((state: ReduxState) => state.login.token);
 
   if (token) {
-    axios.interceptors.request.use(function(config) {
-      config.headers.Authorization = `Bearer ${token}`;
-
-      return config;
-    });
+    addAuthInterceptor(token);
   }
 
   return (
