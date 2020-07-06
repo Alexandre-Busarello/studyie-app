@@ -19,10 +19,19 @@ import {
   Badge,
   ConfirmButton,
   AddIcon,
-  LoadingWrapper
+  LoadingWrapper,
+  NoConfirmButton
 } from './SetupScreen.styles';
 
-export const SetupScreen = ({ navigation }: StackScreenProps) => {
+interface Props {
+  navigation: StackNavigationProp<any>;
+  route: {
+    params: any;
+    lesson: Lesson;
+  };
+}
+
+export const SetupScreen = ({ navigation, route }: Props) => {
   const dispatch = useDispatch();
   const user: User = useSelector((state: ReduxState) => state.login.data);
   const contentTypes = useSelector(
@@ -38,12 +47,11 @@ export const SetupScreen = ({ navigation }: StackScreenProps) => {
   const [selectedContents, setSelectedContents] = useState([]);
 
   useEffect(() => {
-    dispatch(getStudentPreferences());
-    if (preferences) {
-      navigation.reset({ index: 0, routes: [{ name: 'Root' }] });
+    if (!route?.params?.edit) {
+      dispatch(getStudentPreferences());
     }
     dispatch(loadContentTypesData());
-  }, [dispatch, preferences]);
+  }, [dispatch]);
 
   function handleAddContent() {
     if (!contentType || selectedContents?.length >= 10) {
@@ -60,6 +68,10 @@ export const SetupScreen = ({ navigation }: StackScreenProps) => {
     dispatch(createStudentPreferences(selectedContents));
   }
 
+  function handleNoChanges() {
+    navigation.reset({ index: 0, routes: [{ name: 'Root' }] });
+  }
+
   const renderLoading = () => {
     return (
       <LoadingWrapper>
@@ -70,6 +82,10 @@ export const SetupScreen = ({ navigation }: StackScreenProps) => {
 
   if (isLoading) {
     return renderLoading();
+  }
+
+  if (preferences) {
+    navigation.reset({ index: 0, routes: [{ name: 'Root' }] });
   }
 
   return (
@@ -106,6 +122,11 @@ export const SetupScreen = ({ navigation }: StackScreenProps) => {
       >
         Let's study :)
       </ConfirmButton>
+      <NoConfirmButton
+        onPress={handleNoChanges}
+      >
+        Go back to home without changes
+      </NoConfirmButton>
     </CurstomKeyboardAwareScrollView>
   );
 };

@@ -76,3 +76,12 @@ export const LoadingWrapper = styled.View`
   justify-content: center;
   align-items: center;
 `;
+
+export const NoConfirmButton = styled(Button).attrs({
+  activeOpacity: props => (props.disabled ? 1 : 0.7),
+})`
+  margin-top: 10px;
+  padding: 20px;
+  background-color: ${props =>
+    props.disabled ? 'rgba(219,76,119,0.5)' : '#ea899a'};
+`;

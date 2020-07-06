@@ -29,7 +29,24 @@ const Setup = () => (
   <Drawer.Navigator
     drawerContent={props => <SideMenu {...props} />}
     drawerContentOptions={drawerOptions}>
-    <Drawer.Screen name="Setup" component={SetupScreen} />
+    <Drawer.Screen
+      name="Setup"
+      component={SetupScreen}
+      initialParams={{ edit: false }}
+    />
+    <Drawer.Screen name="Logout" component={LogoutScreen} />
+  </Drawer.Navigator>
+);
+
+const EditSetup = () => (
+  <Drawer.Navigator
+    drawerContent={props => <SideMenu {...props} />}
+    drawerContentOptions={drawerOptions}>
+    <Drawer.Screen
+      name="Preferences"
+      component={SetupScreen}
+      initialParams={{ edit: true }}
+    />
     <Drawer.Screen name="Logout" component={LogoutScreen} />
   </Drawer.Navigator>
 );
@@ -49,6 +66,7 @@ export const Routes = () => {
           options={{ headerShown: false }}
         />
         <Stack.Screen name="Setup" component={Setup} />
+        <Stack.Screen name="EditSetup" component={EditSetup} />
         <Stack.Screen name="Root" component={Root} />
         <Stack.Screen
           name="Lesson"

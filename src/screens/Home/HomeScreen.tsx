@@ -79,8 +79,6 @@ export const HomeScreen = ({ navigation }: StackScreenProps) => {
         onRefresh={handleRefresh}
         // eslint-disable-next-line react-native/no-inline-styles
         contentContainerStyle={{ paddingBottom: 100 }}
-        // onEndReachedThreshold={0.5}
-        // onEndReached={() => {}}
       />
     </SafeAreaView>
   );

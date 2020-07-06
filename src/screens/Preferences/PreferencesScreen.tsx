@@ -9,7 +9,10 @@ export const PreferencesScreen = ({ navigation }: StackScreenProps) => {
 
   useEffect(() => {
     dispatch(clearStudentPreferences());
-    navigation.reset({ index: 0, routes: [{ name: 'Setup' }] });
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'EditSetup' }],
+    });
   }, [dispatch, navigation]);
 
   return <View />;

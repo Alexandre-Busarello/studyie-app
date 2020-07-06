@@ -23,7 +23,7 @@ const initialState: StudentState = {
   preferences: null,
   isLoading: false,
   errorOnLoading: false,
-  query: ''
+  query: '',
 };
 
 export default function reducer(state = initialState, action?: ReduxAction) {
