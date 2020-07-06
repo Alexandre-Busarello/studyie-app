@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { loadContentTypesData } from '~/store/ducks/data';
 import { createStudentPreferences, getStudentPreferences } from '~/store/ducks/student';
 import { User } from '~/types/entities/User';
 import { ContentType } from '~/types/entities/ContentType';
+import { Lesson } from '~/types/entities/Lesson';
 import { StackScreenProps } from '~/types/routes/StackScreenProps';
 import { ReduxState } from '~/types/store/ReduxState';
 

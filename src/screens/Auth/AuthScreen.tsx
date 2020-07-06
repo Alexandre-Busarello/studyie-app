@@ -18,9 +18,13 @@ import { ReduxState } from '~/types/store/ReduxState';
 import { StackScreenProps } from '~/types/routes/StackScreenProps';
 import { signIn, resetUserCreated } from '~/store/ducks/login';
 
+interface RefInput {
+  focus: () => void;
+}
+
 export const AuthScreen = ({ navigation }: StackScreenProps) => {
   const dispatch = useDispatch();
-  const passwordRef = useRef();
+  const passwordRef = useRef<RefInput>(null);
 
   const login = useSelector((state: ReduxState) => state.login);
   const loginNotFound = useSelector((state: ReduxState) => state.login.notFound);
@@ -61,7 +65,7 @@ export const AuthScreen = ({ navigation }: StackScreenProps) => {
               autoCapitalize="none"
               placeholder="Type your e-mail"
               returnKeyType="next"
-              onSubmitEditing={() => passwordRef.current.focus()}
+              onSubmitEditing={() => passwordRef?.current?.focus()}
               value={email}
               onChangeText={setEmail}
             />

@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
+import { ReduxState } from '~/types/store/ReduxState';
 import { SideMenu } from '~/components/SideMenu';
 import { AuthScreen } from '~/screens/Auth';
 import { HomeScreen } from '~/screens/Home';

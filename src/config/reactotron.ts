@@ -11,6 +11,7 @@ const tron = Reactotron.configure({
   .useReactNative()
   .connect();
 
+// @ts-ignore - register the tron log in the console object
 console.tron = tron;
 
 tron.clear();

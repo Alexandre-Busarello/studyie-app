@@ -156,7 +156,7 @@ export const createStudentPreferences = (selectedContents: Array<ContentType>) =
   }
 };
 
-export const getStudentPreferences = (selectedContents: Array<ContentType>) => async (dispatch) => {
+export const getStudentPreferences = () => async (dispatch) => {
   dispatch(startLoading());
 
   try {

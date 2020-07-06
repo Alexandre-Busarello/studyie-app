@@ -17,10 +17,14 @@ import { ReduxState } from '~/types/store/ReduxState';
 import { StackScreenProps } from '~/types/routes/StackScreenProps';
 import { signUp } from '~/store/ducks/login';
 
+interface RefInput {
+  focus: () => void;
+}
+
 export const SignupScreen = ({ navigation }: StackScreenProps) => {
   const dispatch = useDispatch();
-  const emailRef = useRef();
-  const passwordRef = useRef();
+  const emailRef = useRef<RefInput>(null);
+  const passwordRef = useRef<RefInput>(null);
 
   const isLoading = useSelector((state: ReduxState) => state.login.isLoading);
   const errorMessage = useSelector(
@@ -61,7 +65,7 @@ export const SignupScreen = ({ navigation }: StackScreenProps) => {
               autoCapitalize="none"
               placeholder="Full name"
               returnKeyType="next"
-              onSubmitEditing={() => emailRef.current.focus()}
+              onSubmitEditing={() => emailRef?.current?.focus()}
               value={name}
               onChangeText={setName}
             />
@@ -74,7 +78,7 @@ export const SignupScreen = ({ navigation }: StackScreenProps) => {
               placeholder="Type your e-mail"
               ref={emailRef}
               returnKeyType="next"
-              onSubmitEditing={() => passwordRef.current.focus()}
+              onSubmitEditing={() => passwordRef?.current?.focus()}
               value={email}
               onChangeText={setEmail}
             />
