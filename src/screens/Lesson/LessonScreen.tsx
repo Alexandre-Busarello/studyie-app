@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import axios from 'axios';
 import { API_URL } from 'react-native-dotenv';
 import { logout } from '~/store/ducks/login';
@@ -76,7 +77,7 @@ export const LessonScreen = ({ route }: Props) => {
   };
 
   return (
-    <React.Fragment>
+    <KeyboardAwareScrollView>
       <VideoWrapper>
         {renderVideoPlayer()}
       </VideoWrapper>
@@ -85,6 +86,6 @@ export const LessonScreen = ({ route }: Props) => {
         <Description>{description}</Description>
         {renderTutorInfo()}
       </Container>
-    </React.Fragment>
+    </KeyboardAwareScrollView>
   );
 };
