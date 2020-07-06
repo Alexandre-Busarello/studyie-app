@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {
@@ -19,6 +19,9 @@ import { signUp } from '~/store/ducks/login';
 
 export const SignupScreen = ({ navigation }: StackScreenProps) => {
   const dispatch = useDispatch();
+  const emailRef = useRef();
+  const passwordRef = useRef();
+
   const isLoading = useSelector((state: ReduxState) => state.login.isLoading);
   const errorMessage = useSelector(
     (state: ReduxState) => state.login.errorMessage,
@@ -58,6 +61,7 @@ export const SignupScreen = ({ navigation }: StackScreenProps) => {
               autoCapitalize="none"
               placeholder="Full name"
               returnKeyType="next"
+              onSubmitEditing={() => emailRef.current.focus()}
               value={name}
               onChangeText={setName}
             />
@@ -68,7 +72,9 @@ export const SignupScreen = ({ navigation }: StackScreenProps) => {
               autoCorrect={false}
               autoCapitalize="none"
               placeholder="Type your e-mail"
+              ref={emailRef}
               returnKeyType="next"
+              onSubmitEditing={() => passwordRef.current.focus()}
               value={email}
               onChangeText={setEmail}
             />
@@ -77,6 +83,7 @@ export const SignupScreen = ({ navigation }: StackScreenProps) => {
               icon="lock-outline"
               secureTextEntry
               placeholder="Your secret password"
+              ref={passwordRef}
               returnKeyType="send"
               onSubmitEditing={handleSubmit}
               value={password}

@@ -69,3 +69,10 @@ export const AddIcon = styled(Ionicons).attrs({
   color: '#fff',
   size: 26,
 })``;
+
+export const LoadingWrapper = styled.View`
+  min-height: 100%;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;

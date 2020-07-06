@@ -19,7 +19,7 @@ export const SideMenu = (props) => {
   const renderUserAvatar = () => {
     const placeholder = {
       name: 'Guest',
-      picture: 'https://via.placeholder.com/300',
+      picture: 'https://cdn1.iconfinder.com/data/icons/user-pictures/100/unknown-512.png',
     };
 
     return (

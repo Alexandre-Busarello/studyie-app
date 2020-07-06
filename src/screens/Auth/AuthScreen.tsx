@@ -20,6 +20,8 @@ import { signIn, resetUserCreated } from '~/store/ducks/login';
 
 export const AuthScreen = ({ navigation }: StackScreenProps) => {
   const dispatch = useDispatch();
+  const passwordRef = useRef();
+
   const login = useSelector((state: ReduxState) => state.login);
   const loginNotFound = useSelector((state: ReduxState) => state.login.notFound);
   const isLoading = useSelector((state: ReduxState) => state.login.isLoading);
@@ -59,6 +61,7 @@ export const AuthScreen = ({ navigation }: StackScreenProps) => {
               autoCapitalize="none"
               placeholder="Type your e-mail"
               returnKeyType="next"
+              onSubmitEditing={() => passwordRef.current.focus()}
               value={email}
               onChangeText={setEmail}
             />
@@ -67,6 +70,7 @@ export const AuthScreen = ({ navigation }: StackScreenProps) => {
               icon="lock-outline"
               secureTextEntry
               placeholder="Your secret password"
+              ref={passwordRef}
               returnKeyType="send"
               onSubmitEditing={handleSubmit}
               value={password}

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Text } from 'react-native';
+import { ActivityIndicator } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadContentTypesData } from '~/store/ducks/data';
-import { saveStudentPreferences } from '~/store/ducks/student';
+import { createStudentPreferences, getStudentPreferences } from '~/store/ducks/student';
 import { User } from '~/types/entities/User';
 import { ContentType } from '~/types/entities/ContentType';
 import { StackScreenProps } from '~/types/routes/StackScreenProps';
@@ -18,7 +18,8 @@ import {
   BadgeWrapper,
   Badge,
   ConfirmButton,
-  AddIcon
+  AddIcon,
+  LoadingWrapper
 } from './SetupScreen.styles';
 
 export const SetupScreen = ({ navigation }: StackScreenProps) => {
@@ -37,6 +38,7 @@ export const SetupScreen = ({ navigation }: StackScreenProps) => {
   const [selectedContents, setSelectedContents] = useState([]);
 
   useEffect(() => {
+    dispatch(getStudentPreferences());
     if (preferences) {
       navigation.reset({ index: 0, routes: [{ name: 'Root' }] });
     }
@@ -55,7 +57,19 @@ export const SetupScreen = ({ navigation }: StackScreenProps) => {
   }
 
   function handleSubmit() {
-    dispatch(saveStudentPreferences(selectedContents));
+    dispatch(createStudentPreferences(selectedContents));
+  }
+
+  const renderLoading = () => {
+    return (
+      <LoadingWrapper>
+        <ActivityIndicator size="large" color="#db4c77" />
+      </LoadingWrapper>
+    );
+  };
+
+  if (isLoading) {
+    return renderLoading();
   }
 
   return (
@@ -88,7 +102,6 @@ export const SetupScreen = ({ navigation }: StackScreenProps) => {
         ))}
       </BadgeWrapper>
       <ConfirmButton
-        loading={isLoading}
         onPress={handleSubmit}
       >
         Let's study :)

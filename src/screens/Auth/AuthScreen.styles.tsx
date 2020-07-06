@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 import { RFValue as FontSize } from 'react-native-responsive-fontsize';
-import { Input } from '~/components/Input';
+import CustomInput from '~/components/Input';
 import { Button } from '~/components/Button';
 
 export const Container = styled.View`
@@ -35,7 +35,7 @@ export const Form = styled.View`
   margin-top: 30px;
 `;
 
-export const FormInput = styled(Input)`
+export const FormInput = styled(CustomInput)`
   margin-bottom: 10px;
 `;
 

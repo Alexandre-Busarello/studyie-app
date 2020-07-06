@@ -44,6 +44,7 @@ export default function reducer(state = initialState, action?: ReduxAction) {
       case ActionType.CREATE_STUDENT_PREFERENCES:
         const { preferences } = action.payload;
         draft.preferences = preferences;
+        draft.isLoading = false;
         break;
       case ActionType.CLEAR_STUDENT_PREFERENCES:
         draft.preferences = null;
@@ -79,7 +80,7 @@ export const errorOnLoading = (): ReduxAction => {
   };
 };
 
-export const createStudentPreferences = (preferences: Array<ContentType>): ReduxAction => {
+export const saveStudentPreferences = (preferences: Array<ContentType>): ReduxAction => {
   return {
     type: ActionType.CREATE_STUDENT_PREFERENCES,
     payload: {
@@ -124,7 +125,7 @@ export const loadStudentLessons = (query?: string) => async (dispatch) => {
   }
 };
 
-export const saveStudentPreferences = (selectedContents: Array<ContentType>) => async (dispatch) => {
+export const createStudentPreferences = (selectedContents: Array<ContentType>) => async (dispatch) => {
   dispatch(startLoading());
 
   const data = selectedContents.map((name, index) => {
@@ -139,10 +140,26 @@ export const saveStudentPreferences = (selectedContents: Array<ContentType>) => 
 
     const { preferences }: UserPreferences = response.data;
 
-    dispatch(createStudentPreferences(preferences));
+    dispatch(saveStudentPreferences(preferences));
     dispatch(setupCompleted());
   } catch (e) {
     dispatch(errorOnLoading());
     return;
   }
 };
+
+export const getStudentPreferences = (selectedContents: Array<ContentType>) => async (dispatch) => {
+  dispatch(startLoading());
+
+  try {
+    const response = await axios.get(`${API_URL}/student/preferences`);
+
+    const { preferences }: UserPreferences = response.data[0];
+
+    dispatch(saveStudentPreferences(preferences));
+  } catch (e) {
+    dispatch(errorOnLoading());
+    return;
+  }
+};
+
