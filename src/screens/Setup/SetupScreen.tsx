@@ -80,6 +80,19 @@ export const SetupScreen = ({ navigation, route }: Props) => {
     );
   };
 
+  const renderNoConfirmButton = () => {
+    if (!route?.params?.edit) {
+      return null;
+    }
+    return (
+      <NoConfirmButton
+        onPress={handleNoChanges}
+      >
+        Go back to home without changes
+      </NoConfirmButton>
+    );
+  };
+
   if (isLoading) {
     return renderLoading();
   }
@@ -93,7 +106,7 @@ export const SetupScreen = ({ navigation, route }: Props) => {
       <Title>Hello, {user?.firstName}</Title>
       <Title>Let's set up your study platform?</Title>
       <Description>
-        Choose content that you want to see on your timeline. The order chosen will be the order of relevance.
+        Choose content that you want to see on your timeline. The chosen order will be the order of relevance.
       </Description>
       <InputWrapper>
         <FormInput
@@ -122,11 +135,7 @@ export const SetupScreen = ({ navigation, route }: Props) => {
       >
         Let's study :)
       </ConfirmButton>
-      <NoConfirmButton
-        onPress={handleNoChanges}
-      >
-        Go back to home without changes
-      </NoConfirmButton>
+      {renderNoConfirmButton()}
     </CurstomKeyboardAwareScrollView>
   );
 };

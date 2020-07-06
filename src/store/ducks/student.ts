@@ -154,7 +154,12 @@ export const getStudentPreferences = (selectedContents: Array<ContentType>) => a
   try {
     const response = await axios.get(`${API_URL}/student/preferences`);
 
-    const { preferences }: UserPreferences = response.data[0];
+    if (!response.data) {
+      dispatch(saveStudentPreferences(null));
+      return;
+    }
+
+    const { preferences }: UserPreferences = response.data;
 
     dispatch(saveStudentPreferences(preferences));
   } catch (e) {
