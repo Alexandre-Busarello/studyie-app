@@ -1,4 +1,6 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
@@ -52,6 +54,16 @@ const EditSetup = () => (
 );
 
 export const Routes = () => {
+  const token: string = useSelector((state: ReduxState) => state.login.token);
+
+  if (token) {
+    axios.interceptors.request.use(function(config) {
+      config.headers.Authorization = `Bearer ${token}`;
+
+      return config;
+    });
+  }
+
   return (
     <NavigationContainer>
       <Stack.Navigator mode="card" screenOptions={stackOptions}>
